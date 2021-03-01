@@ -1,16 +1,17 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidgetItem
-from PyQt5 import uic
+from mainUI import Ui_MainWindow
+from addEditCoffeeFormUI import Ui_MainWindow as Ui_AddEditCoffeeForm
 import sqlite3
 
 TABLE_HEADER = ['ID', 'Сорт', 'Обжарка', 'Форма', 'Вкус', 'Цена', 'Объём']
 MAX_VALUE = 10 ** 6
 
 
-class AddEditCoffeeForm(QMainWindow):
+class AddEditCoffeeForm(QMainWindow, Ui_AddEditCoffeeForm):
     def __init__(self, parent_form, id_variety=None):
         super().__init__()
-        uic.loadUi('addEditCoffeeForm.ui', self)
+        self.setupUi(self)
         self.setFixedSize(self.size())
         self.parent_form = parent_form
         self.id_variety = id_variety
@@ -112,13 +113,13 @@ class AddEditCoffeeForm(QMainWindow):
         self.statusbar.showMessage(text)
 
 
-class MyWidget(QMainWindow):
+class MyWidget(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        uic.loadUi('main.ui', self)
+        self.setupUi(self)
         self.setFixedSize(self.size())
 
-        self.con = sqlite3.connect('coffee.db')
+        self.con = sqlite3.connect('data/coffee.db')
         self.cur = self.con.cursor()
 
         self.load_varieties()
